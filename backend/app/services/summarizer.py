@@ -35,6 +35,18 @@ def _call_ai(title: str, text: str) -> dict:
         )
         return json.loads(res.choices[0].message.content)
 
+    if settings.ai_provider == "gemini":
+        import google.generativeai as genai
+        genai.configure(api_key=settings.gemini_api_key)
+        model = genai.GenerativeModel("gemini-1.5-flash")
+        res = model.generate_content(prompt)
+        text_out = res.text.strip()
+        if text_out.startswith("```"):
+            text_out = text_out.split("```")[1]
+            if text_out.startswith("json"):
+                text_out = text_out[4:]
+        return json.loads(text_out)
+
     import ollama
     res = ollama.chat(
         model=settings.ollama_model,

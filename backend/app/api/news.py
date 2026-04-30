@@ -17,7 +17,7 @@ def list_news(
     limit:     int = Query(15, le=50),
     db: Session = Depends(get_db),
 ):
-    q = db.query(Article).filter(Article.summarized == True)
+    q = db.query(Article)
     if region != "global":
         q = q.filter(Article.region == region)
     if category:

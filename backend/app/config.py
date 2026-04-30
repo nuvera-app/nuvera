@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     ollama_host: str = "http://localhost:11434"
     ai_provider: str = "ollama"
     groq_api_key: str = ""
+    gemini_api_key: str = ""
     fetch_interval_minutes: int = 30
     summarize_interval_minutes: int = 2
     articles_per_feed: int = 10
