@@ -1,0 +1,30 @@
+# Environment
+.env
+.env.*
+.env.example
+.env.local
+
+# Expo
+.expo/
+expo-env.d.ts
+web-build/
+
+# Node
+node_modules/
+*.log
+yarn-error.log
+
+# Native build outputs
+android/
+ios/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# EAS
+.eas/
+
+# OS
+.DS_Store
