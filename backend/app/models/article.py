@@ -27,3 +27,5 @@ class Article(Base):
     rss_summary      = Column(Text, nullable=True)
     author           = Column(String(200), nullable=True)
     source_tags      = Column(String(500), nullable=True)
+    state            = Column(String(100), nullable=True, index=True)
+    image_url        = Column(String(500), nullable=True)

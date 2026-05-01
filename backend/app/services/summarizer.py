@@ -71,12 +71,13 @@ def summarize_pending() -> None:
             .all()
         )
         for article in pending:
-            if not article.text:
+            content = (article.text or "").strip() or (article.rss_summary or "").strip()
+            if not content:
                 article.summarized = True
                 db.commit()
                 continue
             try:
-                data = _call_ai(article.title, article.text[:2000])
+                data = _call_ai(article.title, content[:2000])
                 article.summary         = data.get("summary")
                 raw_cat = str(data.get("category", "")).split("|")[0].split(",")[0].strip().lower()
                 article.category        = raw_cat if raw_cat in _VALID_CATEGORIES else article.category

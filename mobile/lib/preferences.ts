@@ -6,6 +6,7 @@ const KEYS = {
   CATEGORIES:     '@verax/preferred_categories',
   VIEWED:         '@verax/viewed_ids',
   VIEWED_AUTHORS: '@verax/viewed_authors',
+  STATE:          '@verax/user_state',
 }
 
 const MAX_VIEWED         = 50
@@ -37,6 +38,18 @@ export async function savePreferences(prefs: UserPreferences): Promise<void> {
     AsyncStorage.setItem(KEYS.REGIONS,    JSON.stringify(prefs.regions)),
     AsyncStorage.setItem(KEYS.CATEGORIES, JSON.stringify(prefs.categories)),
   ])
+}
+
+export async function getUserState(): Promise<string | null> {
+  return AsyncStorage.getItem(KEYS.STATE)
+}
+
+export async function saveUserState(state: string | null): Promise<void> {
+  if (state) {
+    await AsyncStorage.setItem(KEYS.STATE, state)
+  } else {
+    await AsyncStorage.removeItem(KEYS.STATE)
+  }
 }
 
 export async function getViewedIds(): Promise<number[]> {
