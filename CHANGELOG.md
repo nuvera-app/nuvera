@@ -26,6 +26,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] — 2025-04-30
+
+### Changed
+- Rebranded from Nuvera to **Verax** — name, logo, app icon, splash screen, all references
+- Tagline updated to "The truth-teller."
+- App icon — bold V lettermark with gold beam, navy background
+- Splash screen — full Verax logo with wordmark
+- Added Gemini AI provider support (`AI_PROVIDER=gemini`)
+- Switched from offset-based to cursor-based pagination — eliminates duplicate articles on infinite scroll
+- Dark theme now follows system default on first launch, persisted via AsyncStorage
+- Bottom tab bar respects light/dark theme
+- Category pill rows fixed — no longer clipped in horizontal ScrollView
+- Deployed backend to Render + Supabase PostgreSQL
+- Android APK published via Expo EAS Build
+
+### Fixed
+- Status bar overlap on all screens — switched to `SafeAreaView` from `react-native-safe-area-context`
+- `connect_args` crash when switching from SQLite to PostgreSQL
+- EAS build failing due to peer dependency conflicts — added `legacy-peer-deps` to `.npmrc`
+
+---
+
 ## [Unreleased]
 
 ### Planned
@@ -34,5 +56,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Search across headlines and summaries
 - Push notifications for breaking news
 - User-defined RSS sources
-- PostgreSQL + Supabase production setup
 - iOS App Store and Google Play release

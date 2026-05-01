@@ -14,8 +14,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Nuvera API",
-    description="Less noise. More truth.",
+    title="Verax API",
+    description="The truth-teller.",
     version="1.0.0",
     lifespan=lifespan,
 )
@@ -32,4 +32,4 @@ app.include_router(router, prefix="/api")
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "app": "nuvera"}
+    return {"status": "ok", "app": "verax"}

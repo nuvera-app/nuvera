@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Nuvera",
-    "slug": "nuvera",
+    "name": "Verax",
+    "slug": "verax",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -13,20 +13,20 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "app.nuvera"
+      "bundleIdentifier": "app.verax"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1a1a2e"
       },
-      "package": "app.nuvera"
+      "package": "app.verax"
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
-    "scheme": "nuvera",
+    "scheme": "verax",
     "plugins": [
       "expo-router"
     ],

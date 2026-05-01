@@ -66,8 +66,8 @@ export default function FeedScreen() {
       {/* ── Header ── */}
       <View style={[styles.header, { backgroundColor: colors.background }]}>
         <View>
-          <Text style={[styles.logo, { color: colors.accent }]}>nuvera</Text>
-          <Text style={[styles.tagline, { color: colors.muted }]}>Less noise. More truth.</Text>
+          <Text style={[styles.logo, { color: colors.accent }]}>verax</Text>
+          <Text style={[styles.tagline, { color: colors.muted }]}>The truth-teller.</Text>
         </View>
         <TouchableOpacity onPress={toggle} style={styles.themeBtn} activeOpacity={0.7}>
           <Ionicons

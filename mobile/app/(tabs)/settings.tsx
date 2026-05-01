@@ -40,14 +40,14 @@ export default function SettingsScreen() {
         <Text style={[styles.sectionTitle, { color: colors.muted }]}>Links</Text>
         <TouchableOpacity
           style={[styles.link, { borderTopColor: colors.border }]}
-          onPress={() => Linking.openURL('https://github.com/nuvera-app/nuvera')}
+          onPress={() => Linking.openURL('https://github.com/verax-app/verax')}
         >
-          <Text style={[styles.linkText, { color: colors.accent }]}>GitHub — nuvera-app/nuvera</Text>
+          <Text style={[styles.linkText, { color: colors.accent }]}>GitHub — verax-app/verax</Text>
         </TouchableOpacity>
       </View>
 
       <Text style={[styles.mission, { color: colors.muted }]}>
-        Less noise. More truth.{'\n'}
+        The truth-teller.{'\n'}
         Free. Open. Forever.
       </Text>
     </SafeAreaView>

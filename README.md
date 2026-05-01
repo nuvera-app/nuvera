@@ -1,6 +1,6 @@
-# Nuvera
+# Verax
 
-**Nu** (new) + **Vera** (truth) = *New Truth*
+Latin: *truth-teller*
 
 > Less noise. More truth. Free. Open. Forever.
 
@@ -24,7 +24,7 @@ People don't need *more* news. They need news that's **clear, honest, and fast**
 
 ## The Solution
 
-Nuvera is an **open-source, ad-free AI news aggregator** that:
+Verax is an **open-source, ad-free AI news aggregator** that:
 
 - **Summarises every article** into 3 clear sentences using a local AI model
 - **Detects political bias** (Left → Right) and explains why
@@ -88,7 +88,7 @@ brew install ollama             # Mac
 ollama pull llama3.2
 
 # Ollama runs automatically in the background
-# Nuvera connects to it at http://localhost:11434
+# Verax connects to it at http://localhost:11434
 ```
 
 To use Groq instead (faster, cloud-based free tier), add to `backend/.env`:
@@ -116,7 +116,7 @@ npx expo start --go
 ## Project Structure
 
 ```
-nuvera/
+verax/
 ├── backend/
 │   ├── app/
 │   │   ├── api/            FastAPI route handlers
@@ -152,7 +152,7 @@ All backend settings are controlled via environment variables (or `backend/.env`
 
 | Variable | Default | Description |
 |---|---|---|
-| `DATABASE_URL` | `sqlite:///./nuvera.db` | Database connection string |
+| `DATABASE_URL` | `sqlite:///./verax.db` | Database connection string |
 | `AI_PROVIDER` | `ollama` | `ollama` or `groq` |
 | `OLLAMA_MODEL` | `llama3.2` | Any model pulled in Ollama |
 | `OLLAMA_HOST` | `http://localhost:11434` | Ollama server address |
@@ -169,7 +169,7 @@ All backend settings are controlled via environment variables (or `backend/.env`
 ```
 MIT License
 
-Copyright (c) 2025 Nuvera Contributors
+Copyright (c) 2025 Verax Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -195,7 +195,7 @@ SOFTWARE.
 
 ## Contributing
 
-Issues and pull requests welcome at [github.com/nuvera-app/nuvera](https://github.com/nuvera-app/nuvera).
+Issues and pull requests welcome at [github.com/verax-app/verax](https://github.com/verax-app/verax).
 
 ---
 

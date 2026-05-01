@@ -4,7 +4,7 @@ from app.database import SessionLocal
 from app.models.article import Article
 
 _PROMPT = """\
-You are Nuvera's AI analyst. Mission: less noise, more truth.
+You are Verax's AI analyst. Mission: less noise, more truth.
 Analyze the article. Reply ONLY with valid JSON — no extra text.
 
 Title: {title}

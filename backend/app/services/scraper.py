@@ -18,7 +18,7 @@ RSS_SOURCES = [
     {"name": "NASA",       "url": "https://www.nasa.gov/rss/dyn/breaking_news.rss",    "region": "global", "lang": "en", "category": "science"},
 ]
 
-_HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; Nuvera/1.0)"}
+_HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; Verax/1.0)"}
 
 
 def _extract_text(url: str) -> str:

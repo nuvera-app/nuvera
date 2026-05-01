@@ -3,7 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useColorScheme } from 'react-native'
 import { ColorScheme, DarkColors, LightColors } from '../constants/theme'
 
-const STORAGE_KEY = '@nuvera_theme'
+const STORAGE_KEY = '@verax_theme'
 
 interface ThemeCtx {
   colors: ColorScheme

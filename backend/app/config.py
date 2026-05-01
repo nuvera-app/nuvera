@@ -2,7 +2,7 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    database_url: str = "sqlite:///./nuvera.db"
+    database_url: str = "sqlite:///./verax.db"
     ollama_model: str = "llama3.2"
     ollama_host: str = "http://localhost:11434"
     ai_provider: str = "ollama"
