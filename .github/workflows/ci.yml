@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  backend:
+    name: Backend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          cd backend
+          pip install -r requirements.txt
+
+      - name: Check syntax
+        run: |
+          cd backend
+          python -m py_compile app/main.py app/config.py app/database.py
+          python -m py_compile app/api/news.py app/api/router.py
+          python -m py_compile app/models/article.py app/schemas/article.py
+          python -m py_compile app/services/scraper.py app/services/summarizer.py app/services/scheduler.py
+
+  mobile:
+    name: Mobile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: |
+          cd mobile
+          npm install --legacy-peer-deps
+
+      - name: Type check
+        run: |
+          cd mobile
+          npx tsc --noEmit

@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Verax",
-    "slug": "verax",
+    "slug": "nuvera",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -38,6 +38,7 @@
       "eas": {
         "projectId": "4f9eecd3-a63c-423a-ad7a-c02b7255de66"
       }
-    }
+    },
+    "owner": "dhanasekaranweb"
   }
 }

@@ -50,6 +50,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- GitHub Actions CI workflow — runs on every PR to `main`, checks backend syntax and mobile TypeScript
+- CODEOWNERS — all changes require approval from `@dhanasekaranweb`
+- Branch protection on `main` — PRs required, force push blocked
+
 ### Planned
 - Multi-language support (Hindi, Tamil, Spanish, French, Arabic)
 - Bookmarks — save articles offline
