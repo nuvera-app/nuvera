@@ -192,6 +192,39 @@ RSS_SOURCES = [
     {"name": "Jakarta Post",       "url": "https://www.thejakartapost.com/feed",                          "region": "asia",   "lang": "en", "category": "general"},
     {"name": "Dawn (Pakistan)",    "url": "https://www.dawn.com/feeds/home",                              "region": "asia",   "lang": "en", "category": "general"},
     {"name": "Channel NewsAsia",   "url": "https://www.channelnewsasia.com/rssfeeds/8395986",             "region": "asia",   "lang": "en", "category": "general"},
+
+    # ── India — State / City ──────────────────────────────────────────────────
+    {"name": "The Hindu Tamil Nadu",    "url": "https://www.thehindu.com/news/national/tamil-nadu/feeder/default.rss",       "region": "india", "lang": "en", "category": "general", "state": "Tamil Nadu"},
+    {"name": "The Hindu Karnataka",     "url": "https://www.thehindu.com/news/national/karnataka/feeder/default.rss",        "region": "india", "lang": "en", "category": "general", "state": "Karnataka"},
+    {"name": "The Hindu Kerala",        "url": "https://www.thehindu.com/news/national/kerala/feeder/default.rss",           "region": "india", "lang": "en", "category": "general", "state": "Kerala"},
+    {"name": "The Hindu Andhra Pradesh","url": "https://www.thehindu.com/news/national/andhra-pradesh/feeder/default.rss",   "region": "india", "lang": "en", "category": "general", "state": "Andhra Pradesh"},
+    {"name": "The Hindu Telangana",     "url": "https://www.thehindu.com/news/national/telangana/feeder/default.rss",        "region": "india", "lang": "en", "category": "general", "state": "Telangana"},
+    {"name": "TOI Mumbai",              "url": "https://timesofindia.indiatimes.com/rssfeeds/7727584.cms",                   "region": "india", "lang": "en", "category": "general", "state": "Maharashtra"},
+    {"name": "TOI Delhi",               "url": "https://timesofindia.indiatimes.com/rssfeeds/7727587.cms",                   "region": "india", "lang": "en", "category": "general", "state": "Delhi"},
+    {"name": "TOI Bangalore",           "url": "https://timesofindia.indiatimes.com/rssfeeds/7727591.cms",                   "region": "india", "lang": "en", "category": "general", "state": "Karnataka"},
+    {"name": "TOI Chennai",             "url": "https://timesofindia.indiatimes.com/rssfeeds/7727592.cms",                   "region": "india", "lang": "en", "category": "general", "state": "Tamil Nadu"},
+    {"name": "TOI Kolkata",             "url": "https://timesofindia.indiatimes.com/rssfeeds/7727593.cms",                   "region": "india", "lang": "en", "category": "general", "state": "West Bengal"},
+    {"name": "TOI Hyderabad",           "url": "https://timesofindia.indiatimes.com/rssfeeds/7727594.cms",                   "region": "india", "lang": "en", "category": "general", "state": "Telangana"},
+    {"name": "Deccan Chronicle",        "url": "https://www.deccanchronicle.com/rss_feed/",                                  "region": "india", "lang": "en", "category": "general", "state": "Telangana"},
+    {"name": "New Indian Express TN",   "url": "https://www.newindianexpress.com/states/tamil-nadu/rssfeed/?rss=true",       "region": "india", "lang": "en", "category": "general", "state": "Tamil Nadu"},
+    {"name": "New Indian Express KA",   "url": "https://www.newindianexpress.com/states/karnataka/rssfeed/?rss=true",        "region": "india", "lang": "en", "category": "general", "state": "Karnataka"},
+    {"name": "New Indian Express KL",   "url": "https://www.newindianexpress.com/states/kerala/rssfeed/?rss=true",           "region": "india", "lang": "en", "category": "general", "state": "Kerala"},
+
+    # ── UK — Regional ─────────────────────────────────────────────────────────
+    {"name": "BBC Scotland",            "url": "https://feeds.bbci.co.uk/news/scotland/rss.xml",                             "region": "uk",    "lang": "en", "category": "general", "state": "Scotland"},
+    {"name": "BBC Wales",               "url": "https://feeds.bbci.co.uk/news/wales/rss.xml",                                "region": "uk",    "lang": "en", "category": "general", "state": "Wales"},
+    {"name": "BBC Northern Ireland",    "url": "https://feeds.bbci.co.uk/news/northern_ireland/rss.xml",                     "region": "uk",    "lang": "en", "category": "general", "state": "Northern Ireland"},
+    {"name": "The Scotsman",            "url": "https://www.scotsman.com/rss",                                               "region": "uk",    "lang": "en", "category": "general", "state": "Scotland"},
+
+    # ── US — State Level ──────────────────────────────────────────────────────
+    {"name": "LA Times California",     "url": "https://www.latimes.com/california/rss2.0.xml",                              "region": "us",    "lang": "en", "category": "general", "state": "California"},
+    {"name": "Texas Tribune",           "url": "https://www.texastribune.org/feeds/all-stories/",                            "region": "us",    "lang": "en", "category": "general", "state": "Texas"},
+    {"name": "Boston Globe",            "url": "https://www3.bostonglobe.com/topstories/rss/",                               "region": "us",    "lang": "en", "category": "general", "state": "Massachusetts"},
+    {"name": "Chicago Tribune",         "url": "https://www.chicagotribune.com/arcio/rss/",                                  "region": "us",    "lang": "en", "category": "general", "state": "Illinois"},
+    {"name": "Miami Herald Florida",    "url": "https://www.miamiherald.com/news/local/?widgetName=rssfeed&widgetContentId=718105&getXml=true", "region": "us", "lang": "en", "category": "general", "state": "Florida"},
+    {"name": "Seattle Times",           "url": "https://www.seattletimes.com/feed/",                                         "region": "us",    "lang": "en", "category": "general", "state": "Washington"},
+    {"name": "Denver Post Colorado",    "url": "https://www.denverpost.com/feed/",                                           "region": "us",    "lang": "en", "category": "general", "state": "Colorado"},
+    {"name": "NY Post New York",        "url": "https://nypost.com/feed/",                                                   "region": "us",    "lang": "en", "category": "general", "state": "New York"},
 ]
 
 _HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; Verax/1.0)"}
@@ -204,7 +237,7 @@ def _extract_text(url: str) -> str:
             soup = BeautifulSoup(r.text, "lxml")
             for tag in soup(["script", "style", "nav", "footer", "header", "aside"]):
                 tag.decompose()
-            return " ".join(p.get_text(strip=True) for p in soup.find_all("p"))[:3000]
+            return " ".join(p.get_text(strip=True) for p in soup.find_all("p"))[:6000]
     except Exception:
         return ""
 
@@ -218,8 +251,24 @@ def fetch_all_feeds() -> None:
         db.close()
 
 
+def _parse_image(entry) -> str | None:
+    mc = getattr(entry, "media_content", None)
+    if mc:
+        for m in mc:
+            url = m.get("url", "")
+            mime = m.get("type", "") or m.get("medium", "")
+            if url and ("image" in mime or url.split("?")[0].endswith((".jpg", ".jpeg", ".png", ".webp", ".gif"))):
+                return url[:500]
+    mt = getattr(entry, "media_thumbnail", None)
+    if mt and mt[0].get("url"):
+        return mt[0]["url"][:500]
+    for enc in getattr(entry, "enclosures", []):
+        if "image" in enc.get("type", ""):
+            return enc.get("url", "")[:500]
+    return None
+
+
 def _parse_author(entry) -> str | None:
-    # Try standard author field, then Dublin Core creator
     author = getattr(entry, "author", None) or getattr(entry, "dc_creator", None)
     if not author and getattr(entry, "authors", None):
         author = entry.authors[0].get("name", "")
@@ -253,6 +302,8 @@ def _fetch_feed(source: dict, db) -> None:
                 rss_summary=entry.get("summary", "") or None,
                 author=_parse_author(entry),
                 source_tags=_parse_source_tags(entry),
+                state=source.get("state"),
+                image_url=_parse_image(entry),
             ))
         db.commit()
     except Exception:

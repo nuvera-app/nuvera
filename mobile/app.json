@@ -21,7 +21,8 @@
         "backgroundColor": "#1a1a2e"
       },
       "package": "app.verax",
-      "allowBackup": false
+      "allowBackup": false,
+      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"]
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -29,7 +30,13 @@
     },
     "scheme": "verax",
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow Verax to use your location to show local news."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

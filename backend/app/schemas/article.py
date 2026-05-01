@@ -19,8 +19,24 @@ class ArticleOut(BaseModel):
     read_time:       int
     published_at:    Optional[datetime]
     created_at:      datetime
+    summarized:      bool = False
     author:          Optional[str]
     rss_summary:     Optional[str]
     source_tags:     Optional[str]
+    state:           Optional[str] = None
+    image_url:       Optional[str] = None
 
     model_config = {"from_attributes": True}
+
+
+class HomeSection(BaseModel):
+    label:    str
+    articles: list[ArticleOut]
+
+
+class HomeFeed(BaseModel):
+    breaking:   list[ArticleOut]
+    for_you:    list[ArticleOut]
+    local:      Optional[HomeSection]
+    trending:   list[ArticleOut]
+    global_top: list[ArticleOut]

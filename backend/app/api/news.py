@@ -1,14 +1,92 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import and_, func, or_
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.article import Article
-from app.schemas.article import ArticleOut
+from app.schemas.article import ArticleOut, HomeFeed
 from app.services.recommender import recommender, MAX_ARTICLES
 
 router = APIRouter(prefix="/news", tags=["news"])
+
+
+@router.get("/home", response_model=HomeFeed)
+def home_feed(
+    categories:    str = Query(""),
+    regions:       str = Query("global"),
+    user_state:    str = Query(""),
+    viewed_ids:    str = Query(""),
+    viewed_authors:str = Query(""),
+    db: Session = Depends(get_db),
+):
+    preferred_categories = [c.strip() for c in categories.split(",")       if c.strip()]
+    preferred_regions    = [r.strip() for r in regions.split(",")          if r.strip()]
+    viewed_id_list       = [int(i)    for i in viewed_ids.split(",")       if i.strip().isdigit()]
+    viewed_author_list   = [a.strip() for a in viewed_authors.split("|||") if a.strip()]
+
+    sort_ts = func.coalesce(Article.published_at, Article.created_at)
+    cutoff  = datetime.utcnow() - timedelta(hours=6)
+
+    breaking = (
+        db.query(Article)
+        .filter(sort_ts >= cutoff)
+        .order_by(sort_ts.desc())
+        .limit(12)
+        .all()
+    )
+    seen_ids: set[int] = {a.id for a in breaking}
+
+    full_pool = db.query(Article).order_by(sort_ts.desc()).limit(MAX_ARTICLES).all()
+
+    for_you = recommender.recommend(
+        articles=full_pool,
+        preferred_categories=preferred_categories,
+        preferred_regions=preferred_regions,
+        viewed_ids=viewed_id_list,
+        viewed_authors=viewed_author_list,
+        user_state=user_state or None,
+        limit=15,
+        offset=0,
+    )
+    for_you = [a for a in for_you if a.id not in seen_ids][:15]
+    seen_ids.update(a.id for a in for_you)
+
+    local = None
+    if user_state:
+        state_articles = (
+            db.query(Article)
+            .filter(Article.state == user_state)
+            .order_by(sort_ts.desc())
+            .limit(15)
+            .all()
+        )
+        unique_state = [a for a in state_articles if a.id not in seen_ids]
+        if unique_state:
+            local = {"label": user_state, "articles": unique_state}
+            seen_ids.update(a.id for a in unique_state)
+
+    trending = [a for a in recommender.trending(articles=full_pool, limit=15) if a.id not in seen_ids][:10]
+    seen_ids.update(a.id for a in trending)
+
+    global_top = [
+        a for a in (
+            db.query(Article)
+            .filter(Article.region == "global")
+            .order_by(sort_ts.desc())
+            .limit(20)
+            .all()
+        )
+        if a.id not in seen_ids
+    ][:10]
+
+    return {
+        "breaking":   breaking,
+        "for_you":    for_you,
+        "local":      local,
+        "trending":   trending,
+        "global_top": global_top,
+    }
 
 
 @router.get("/recommended", response_model=list[ArticleOut])
@@ -19,6 +97,7 @@ def recommended_news(
     regions:         str = Query("global", description="Comma-separated preferred regions"),
     viewed_ids:      str = Query("", description="Comma-separated article IDs the user has read"),
     viewed_authors:  str = Query("", description="Pipe-delimited author names the user has read"),
+    user_state:      str = Query(""),
     limit:           int = Query(20, le=50),
     offset:          int = Query(0, ge=0),
     db: Session = Depends(get_db),
@@ -50,6 +129,7 @@ def recommended_news(
         preferred_regions=eff_regions,
         viewed_ids=viewed_id_list,
         viewed_authors=viewed_author_list,
+        user_state=user_state or None,
         limit=limit,
         offset=offset,
     )

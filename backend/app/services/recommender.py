@@ -226,6 +226,27 @@ class ArticleRecommender:
 
         return selected
 
+    @staticmethod
+    def _time_of_day_signal(df: pd.DataFrame) -> np.ndarray:
+        hour = datetime.now(timezone.utc).hour
+        # Map hour → content intent: hard news → business/tech → light
+        if 5 <= hour < 10:
+            boosted = {"general", "politics", "science"}
+        elif 10 <= hour < 14:
+            boosted = {"business", "tech", "crypto"}
+        elif 14 <= hour < 18:
+            boosted = {"tech", "science", "health"}
+        elif 18 <= hour < 23:
+            boosted = {"entertainment", "sports", "gaming"}
+        else:
+            boosted = {"general", "politics"}
+        return df["category"].apply(lambda c: 0.12 if c in boosted else 0.0).values
+
+    @staticmethod
+    def _normalize(arr: np.ndarray) -> np.ndarray:
+        mn, mx = arr.min(), arr.max()
+        return (arr - mn) / (mx - mn + 1e-9)
+
     def recommend(
         self,
         articles:             list,
@@ -233,6 +254,7 @@ class ArticleRecommender:
         preferred_regions:    list[str],
         viewed_ids:           list[int],
         viewed_authors:       list[str] | None = None,
+        user_state:           str | None = None,
         limit:  int = 20,
         offset: int = 0,
     ) -> list:
@@ -252,8 +274,6 @@ class ArticleRecommender:
             df_full     = self._df.copy()
             matrix_full = self._matrix
 
-        # Build user profile from the FULL pool — viewed articles contribute to the
-        # interest vector even though they'll be excluded from the output pool below.
         user_vec = self._user_vector(
             matrix_full, df_full,
             preferred_categories,
@@ -262,7 +282,6 @@ class ArticleRecommender:
         )
         has_signal = user_vec is not None
 
-        # Exclude already-opened articles — users shouldn't see what they've read.
         viewed_set  = set(viewed_ids)
         unread_mask = ~df_full["id"].isin(viewed_set)
         df     = df_full[unread_mask].reset_index(drop=True)
@@ -271,12 +290,14 @@ class ArticleRecommender:
         if len(df) == 0:
             return []
 
-        sim = (cosine_similarity(user_vec, matrix).flatten()
-               if has_signal else np.zeros(len(df)))
+        # --- individual signals (all normalised to [0, 1]) ---
+        sim = self._normalize(
+            cosine_similarity(user_vec, matrix).flatten() if has_signal else np.zeros(len(df))
+        )
 
-        recency = df["published_at"].apply(self._recency).values
+        recency = df["published_at"].apply(self._recency).values  # already [0,1]
 
-        cat_match = (
+        cat_match = self._normalize(
             np.array([_cat_score(c, preferred_categories) for c in df["category"]])
             if preferred_categories else np.zeros(len(df))
         )
@@ -287,10 +308,29 @@ class ArticleRecommender:
                       else 0.0
         ).values
 
-        trending = self._trending_scores(matrix, df)
+        # GPS state gives a hard locality boost — strongest proximity signal we have.
+        state_match = np.zeros(len(df))
+        if user_state:
+            article_id_to_state = {a.id: getattr(a, "state", None) for a in articles}
+            state_match = df["id"].apply(
+                lambda aid: 1.0 if article_id_to_state.get(aid) == user_state else 0.0
+            ).values
 
-        # Cold-start: lean on trending + recency; with history: semantic similarity dominates.
-        if has_signal:
+        trending   = self._normalize(self._trending_scores(matrix, df))
+        time_boost = self._time_of_day_signal(df)  # additive nudge, not normalised
+
+        has_location = user_state is not None and state_match.sum() > 0
+
+        if has_signal and has_location:
+            scores = (
+                0.28 * sim
+              + 0.16 * recency
+              + 0.17 * cat_match
+              + 0.10 * reg_match
+              + 0.17 * state_match
+              + 0.12 * trending
+            )
+        elif has_signal:
             scores = (
                 0.35 * sim
               + 0.20 * recency
@@ -300,21 +340,42 @@ class ArticleRecommender:
             )
         else:
             scores = (
-                0.10 * sim
-              + 0.30 * recency
-              + 0.05 * cat_match
-              + 0.20 * reg_match
-              + 0.35 * trending
+                0.05 * sim
+              + 0.28 * recency
+              + 0.08 * cat_match
+              + 0.19 * reg_match
+              + 0.20 * state_match
+              + 0.20 * trending
             )
 
-        # MMR selects offset+limit articles with diversity; slice for the requested page.
-        need          = offset + limit
-        ranked_idx    = self._mmr_select(scores, matrix, min(need, len(df)))
-        ranked_ids    = df.iloc[ranked_idx]["id"].tolist()
-        id_to_obj     = {a.id: a for a in articles}
-        ranked        = [id_to_obj[aid] for aid in ranked_ids if aid in id_to_obj]
+        scores = scores + time_boost
+
+        need       = offset + limit
+        ranked_idx = self._mmr_select(scores, matrix, min(need, len(df)))
+        ranked_ids = df.iloc[ranked_idx]["id"].tolist()
+        id_to_obj  = {a.id: a for a in articles}
+        ranked     = [id_to_obj[aid] for aid in ranked_ids if aid in id_to_obj]
 
         return ranked[offset : offset + limit]
+
+
+    def trending(self, articles: list, limit: int = 10) -> list:
+        if not articles:
+            return []
+        if self._needs_rebuild(len(articles)):
+            try:
+                self._rebuild(articles)
+            except Exception:
+                return sorted(articles, key=lambda a: a.published_at or a.created_at, reverse=True)[:limit]
+        with self._lock:
+            if self._df is None or self._matrix is None:
+                return articles[:limit]
+            df     = self._df.copy()
+            matrix = self._matrix
+        scores    = self._trending_scores(matrix, df)
+        top_idx   = np.argsort(-scores)[:limit]
+        id_to_obj = {a.id: a for a in articles}
+        return [id_to_obj[rid] for rid in df.iloc[top_idx]["id"].tolist() if rid in id_to_obj]
 
 
 recommender = ArticleRecommender()

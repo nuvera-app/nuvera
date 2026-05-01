@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
-import { api, NewsParams, PageCursor, RecommendedParams } from '../lib/api'
+import { api, HomeParams, NewsParams, PageCursor, RecommendedParams } from '../lib/api'
 
 const PAGE_SIZE = 20
 
@@ -31,11 +31,20 @@ export function useRecommendedNews(params: RecommendedParams = {}, options?: { e
     initialPageParam: 0 as number,
     getNextPageParam: (lastPage, _allPages, lastPageParam) => {
       if (lastPage.length < PAGE_SIZE) return undefined
-      // Advance by the exact count returned, not total loaded, so cache
-      // rebuilds mid-session don't misalign the offset.
       return (lastPageParam as number) + lastPage.length
     },
     staleTime: 2 * 60 * 1000,
+  })
+}
+
+export function useHomeFeed(params: HomeParams, options?: { enabled?: boolean; refetchInterval?: number }) {
+  return useQuery({
+    queryKey:  ['home', params],
+    enabled:   options?.enabled ?? true,
+    queryFn:   () => api.news.home(params),
+    staleTime: 2 * 60 * 1000,
+    refetchInterval:             options?.refetchInterval,
+    refetchIntervalInBackground: false,
   })
 }
 
